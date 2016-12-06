@@ -1,12 +1,19 @@
 from PIL import Image
-import json
 import urllib
-import random
 import boto3
 import os
 import re
 
 s3 = boto3.client('s3')
+
+def get_styles:
+  p = re.compile('(\w+)=(\d+)')
+  dict = {}
+  for s in os.environ['STYLES'].split(';'):
+    m = p.match(s)
+    if m is not None:
+      dict[m.group(1)] = int(m.group(2))
+  return dict
 
 def dest_key(style):
   key = urllib.unquote(params['Records'][0]['s3']['object']['key']).replace('original', style)
@@ -21,7 +28,7 @@ def lambda_handler(params, context):
   s3.download_file(Bucket=bucket, Key=src_key, Filename=local_path)
   srcimg = Image.open(local_path, 'r')
 
-  styles = json.loads(os.environ['STYLES'])
+  styles = get_styles()
   for style in styles:
     destimg = srcimg.copy()
     new_size = (styles[style], float(styles[style])/srcimg.size[0]*srcimg.size[1])
