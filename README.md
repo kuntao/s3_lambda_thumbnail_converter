@@ -1,0 +1,2 @@
+# s3_lambda_thumbnail_converter
+s3への保存をトリガーにサムネイルを作成するLambdaのやつ
