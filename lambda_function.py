@@ -38,7 +38,7 @@ def lambda_handler(params, context):
       destimg.thumbnail(new_size, Image.ANTIALIAS)
       destimg.save(local_path, 'JPEG')
 
-      dest_key = '/thumbnails/%s/%s.jpg' % (hash_key, style)
+      dest_key = 'thumbnails/%s/%s.jpg' % (hash_key, style)
       s3.upload_file(Filename=local_path, Bucket=bucket, Key=dest_key)
 
   return
